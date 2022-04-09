@@ -1,33 +1,31 @@
 import '../../index.css'
-import {api} from "../../utils/Api";
+import {api} from "../utils/Api";
 import React from "react";
 import Card from "../Card/Card";
 
 function Main (props) {
-    const [userName, setUserName] = React.useState()
-    const [userDescription , setUserDescription ] = React.useState()
-    const [userAvatar, setUserAvatar] = React.useState()
+    const [userName, setUserName] = React.useState('')
+    const [userDescription , setUserDescription ] = React.useState('')
+    const [userAvatar, setUserAvatar] = React.useState('')
     const [cards, setCards] = React.useState([])
 
-React.useEffect(()=>{
-    const promises = [api.getProfile(), api.getInitialCards()]
-    Promise.all(promises).then(([getProfileRes, getInitialCardsRes])=> {
-        setUserName(getProfileRes.name)
-        setUserDescription(getProfileRes.about)
-        setUserAvatar(getProfileRes.avatar)
 
-        const data = getInitialCardsRes.map(item => {
-            return {
-                name: item.name,
-                link: item.link,
-                likeCount: item.likes.length,
-                id: item._id
-            }
-        })
-        setCards(data)
+React.useEffect(()=>{
+api.getProfile()
+    .then((res)=> {
+        setUserName(res.name)
+        setUserDescription(res.about)
+        setUserAvatar(res.avatar)
     })
-        .catch(console.log)
+    .catch(console.log)
 },[])
+    React.useEffect(()=> {
+        api.getInitialCards().then((res)=>{
+            setCards(res)
+        })
+            .catch(console.log)
+    }, [])
+
 
     return <main className="content">
         <section className="profile">
@@ -48,7 +46,7 @@ React.useEffect(()=>{
             <ul className="places">
                 {
                     cards.map(item=>(
-                        <Card onCardClick = {props.onCardClick} link={item.link} name = {item.name} likeCount={item.likeCount} key = {item.id}/>
+                        <Card onCardClick = {props.onCardClick} link={item.link} name = {item.name} likeCount={item.likes.length} key = {item._id}/>
                     ))
 
                 }
