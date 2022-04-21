@@ -24,7 +24,7 @@ class Api {
     })
         .then(res => this._getResponseData(res))
   }
-  editProfile(name, about) {
+  editProfile({name, about}) {
     return  fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
@@ -35,7 +35,7 @@ class Api {
     })
         .then(res => this._getResponseData(res))
   }
-  addCard(name, link) {
+  addCard({name, link}) {
     return  fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
@@ -53,17 +53,12 @@ class Api {
     })
         .then(res => this._getResponseData(res))
   }
-  deleteLike(id) {
+
+  changeLikeCardStatus(id, like) {
     return  fetch(`${this._baseUrl}/cards/${id}/likes`, {
-      method: 'DELETE',
+      method: like ?  'PUT' : 'DELETE',
       headers: this._headers,
-    })
-        .then(res => this._getResponseData(res))
-  }
-  addLike(id) {
-    return  fetch(`${this._baseUrl}/cards/${id}/likes`, {
-      method: 'PUT',
-      headers: this._headers,
+
     })
         .then(res => this._getResponseData(res))
   }

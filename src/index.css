@@ -43,4 +43,5 @@
 @import url(blocks/profile/__button/_type/_profile-edit/profile__button_type_profile-edit.css);
 @import url(blocks/places/__like-container/places__like-container.css);
 @import url(blocks/places/__like-count/places__like-count.css);
-
+@import url(blocks/places/__delete-button/_hidden/places__delete-button_hidden.css);
+@import url(blocks/places/__delete-button/_visible/places__delete-button_visible.css);
