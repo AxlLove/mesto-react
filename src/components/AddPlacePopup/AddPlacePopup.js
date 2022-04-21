@@ -1,15 +1,15 @@
-import '../../index.css'
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
-import React from "react";
-import {CurrentUserContext} from "../../contexts/CurrentUserContext";
-function AddPlacePopup  (props) {
-    const [cardName, setCardName] = React.useState('')
-    const [cardLink, setCardLink] = React.useState('')
+import React, { useState, useEffect } from "react";
 
-    React.useEffect(() => {
+function AddPlacePopup  ({isOpen, onAddPlace, onClose}) {
+    const [cardName, setCardName] = useState('')
+    const [cardLink, setCardLink] = useState('')
+
+    useEffect(() => {
         setCardName('');
         setCardLink('');
-    }, [props.onClose]);
+    }, [isOpen]);
+
     function handleCardNameChange(e) {
         setCardName(e.target.value);
     }
@@ -18,14 +18,14 @@ function AddPlacePopup  (props) {
     }
     function handleSubmit(e) {
         e.preventDefault();
-        props.onAddPlace({
+         onAddPlace({
             name: cardName,
             link: cardLink,
         });
     }
 
 
-    return   <PopupWithForm onSubmit ={handleSubmit} onClose = { props.onClose } isOpen = { props.isOpen } name = "card-edit"   title = "Новое место" buttonName = "Сохранить">
+    return   <PopupWithForm onSubmit ={handleSubmit} onClose = { onClose } isOpen = { isOpen } name = "card-edit"   title = "Новое место" buttonName = "Сохранить">
         <fieldset className="pop-up__edit-container">
             <div className="pop-up__imput-container">
                 <input onChange={handleCardNameChange} id="card-name" required name="name" type="text" value={cardName}

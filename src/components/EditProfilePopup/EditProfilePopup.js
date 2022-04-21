@@ -1,15 +1,14 @@
-import '../../index.css'
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
-function EditProfilePopup (props) {
-    const [name, setName] = React.useState('')
-    const [description, setDescription] = React.useState('')
-    const currentUser = React.useContext(CurrentUserContext)
-    React.useEffect(() => {
+function EditProfilePopup ({isOpen, onUpdateUser, onClose}) {
+    const [name, setName] = useState('')
+    const [description, setDescription] = useState('')
+    const currentUser = useContext(CurrentUserContext)
+    useEffect(() => {
         setName(currentUser.name);
         setDescription(currentUser.about);
-    }, [currentUser, props.onClose]);
+    }, [currentUser, isOpen]);
     function handleNameChange(e) {
         setName(e.target.value);
     }
@@ -18,12 +17,12 @@ function EditProfilePopup (props) {
     }
     function handleSubmit(e) {
         e.preventDefault();
-        props.onUpdateUser({
+         onUpdateUser({
             name,
             about: description,
         });
     }
-    return  <PopupWithForm onSubmit = {handleSubmit} onClose = { props.onClose } isOpen = {props.isOpen} name = 'profile-edit' title = "Редактировать профиль" buttonName = "Сохранить">
+    return  <PopupWithForm onSubmit = {handleSubmit} onClose = { onClose } isOpen = {isOpen} name = 'profile-edit' title = "Редактировать профиль" buttonName = "Сохранить">
         <fieldset className="pop-up__edit-container">
             <div className="pop-up__imput-container">
                 <input id='name' required name="name" type="text" value={name}

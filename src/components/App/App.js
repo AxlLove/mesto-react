@@ -1,6 +1,5 @@
 import logo from '../../logo.svg';
-import React from "react";
-import '../../index.css';
+import React, { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
@@ -13,21 +12,21 @@ import EditAvatarPopup from "../EditAvatarPopup/EditAvatarPopup";
 import AddPlacePopup from "../AddPlacePopup/AddPlacePopup";
 
 function App() {
-    const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false)
-    const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false)
-    const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false)
-    const [selectedCard, setSelectedCard] = React.useState({})
-    const [currentUser, setCurrentUser] = React.useState({})
-    const [cards, setCards] = React.useState([])
+    const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false)
+    const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false)
+    const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false)
+    const [selectedCard, setSelectedCard] = useState({})
+    const [currentUser, setCurrentUser] = useState({})
+    const [cards, setCards] = useState([])
 
-    React.useEffect(()=>{
+    useEffect(()=>{
         api.getProfile()
             .then((res)=> {
                 setCurrentUser(res)
             }).catch(console.log);
     },[]);
 
-    React.useEffect(()=> {
+    useEffect(()=> {
         api.getInitialCards().then((res)=>{
             setCards(res);
         })
